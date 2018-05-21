@@ -27,8 +27,25 @@ def _mask_word(word):
 
 def _uncover_word(answer_word, masked_word, character):
     pass
-
-
+    if len(answer_word) == 0:
+      raise InvalidWordException()
+    elif len(character) > 1:
+      raise InvalidGuessedLetterException()
+    elif len(answer_word) != len(masked_word):
+      raise InvalidWordException()
+    else:
+      answer_word = answer_word.lower()
+      characters = list(answer_word)
+      masked_word_list = list(masked_word)
+      counter = 0
+      for c in characters:
+        character = character.lower()
+        if c == character:
+          masked_word_list[counter] = character
+        counter = counter + 1
+      return ''.join(masked_word_list)
+    
+    
 def guess_letter(game, letter):
     pass
 
