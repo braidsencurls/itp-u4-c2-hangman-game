@@ -27,10 +27,14 @@ def main():
 
     attempts = _input("Enter how the number of attempts allowed. Leave empty for default: ")
 
-    if attempts.strip():
+    try:
+      if attempts.strip():
         game = start_new_game(list_of_words, int(attempts))
-    else:
+      else:
         game = start_new_game(list_of_words)
+    except ValueError:
+      print('Invalid Input')
+      exit()
 
     print("\n### Game Initialized. Let's play!!\n")
 
@@ -38,8 +42,7 @@ def main():
         while True:
             print('')
             previous_masked_word = game['masked_word']
-            line_message = "({}) Enter new guess ({} remaining attempts): ".format(
-                previous_masked_word, game['remaining_misses'])
+            line_message = "({0}) Enter new guess ({1} remaining attempts): ".format(previous_masked_word, game['remaining_misses'])
 
             users_guess = _input(line_message)
             try:
@@ -55,9 +58,9 @@ def main():
             else:
                 print("\t:( That's a miss!")
     except GameWonException:
-        print("\t YES! You win! The word was: {}".format(game['answer_word']))
+        print("\t YES! You win! The word was: {0}".format(game['answer_word']))
     except GameLostException:
-        print("\t :( OH NO! You Lose! The word was: {}".format(game['answer_word']))
+        print("\t :( OH NO! You Lose! The word was: {0}".format(game['answer_word']))
 
 
 if __name__ == '__main__':

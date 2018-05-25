@@ -48,6 +48,29 @@ def _uncover_word(answer_word, masked_word, character):
     
 def guess_letter(game, letter):
     pass
+    if game['remaining_misses'] == 0 or game['answer_word'].lower() == game['masked_word'].lower():
+      raise GameFinishedException
+    if len(list(letter)) > 1:
+      raise InvalidGuessedLetterException
+    guesses = game['previous_guesses']
+    remaining = game['remaining_misses']
+    word = _uncover_word(game['answer_word'], game['masked_word'], letter)
+    game['masked_word'] = word
+    guesses.append(letter.lower())
+    game['previous_guesses'] = guesses
+      
+    if letter.lower() in game['answer_word'].lower():
+      game['remaining_misses'] = int(remaining)
+    else:
+      game['remaining_misses'] = int(remaining) - 1
+      
+    if game['remaining_misses'] == 0:
+      raise GameLostException
+    if word.lower() == game['answer_word'].lower():
+      raise GameWonException
+        
+    return game
+    
 
 
 def start_new_game(list_of_words=None, number_of_guesses=5):
